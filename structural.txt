@@ -1,0 +1,18 @@
+components/
+    header
+    footer
+pages/
+    home/
+    products/
+    blog/
+    about/
+shared/
+    interfaces/
+    models/
+    pipes/
+    directives/
+    guards/
+admin/
+    admin-category/
+    admin-products/
+    admin-blogs/

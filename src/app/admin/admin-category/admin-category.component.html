@@ -1,0 +1,70 @@
+<div class=" border rounded">
+    <div class="catTitle px-5 d-flex justify-content-between align-items-center bg-light border-bottom">
+        <h5>Category</h5>
+        <button type="button" class="btn btn-dark" (click)="openModal(template, true)">Add</button>
+    </div>
+    <div class="container">
+        <input class="form-control my-3 border-bottom" type="text" [(ngModel)]="searchPlace" name="searchPlace"
+            placeholder="filter category...">
+        <table class="table table-bordered">
+            <thead class="table-secondary">
+                <tr class="text-center m-0">
+                    <th scope="col">№</th>
+                    <th scope="col" (click)="clickSort(2)">Name EN<span><i *ngIf="sortNameEN !== undefined"
+                                [ngClass]="sortNameEN ? 'fa-sort-down' : 'fa-sort-up'" class="fas"></i></span>
+                    </th>
+                    <th scope="col" (click)="clickSort(3)">Name UA<span><i *ngIf="sortNameUA !== undefined"
+                                [ngClass]="sortNameUA ? 'fa-sort-down' : 'fa-sort-up'" class="fas"></i></span>
+                    </th>
+                    <th scope="col" class="">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center p-0" *ngFor="let c of arrayCategories | search:searchPlace let i = index"
+                    id="{{ i+1 }}">
+                    <th>{{ i+1 }}</th>
+                    <td>{{ c.nameEn }}</td>
+                    <td>{{ c.nameUa }}</td>
+                    <td><button type="button" class="btn btn-dark"
+                            (click)="openDeleteModal(template, c.id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<ng-template #template>
+    <div *ngIf="modalConfig" class="container-fluid">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Category model</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body row">
+            <div class="col">
+                <input type="text" class="form-control" [(ngModel)]="nameEN" name="nameEN"
+                    placeholder="name en here ...">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" [(ngModel)]="nameUA" name="nameUA"
+                    placeholder="name ua here ...">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+            <button type="button" class="btn btn-dark" [disabled]="btnDis()" (click)="addCategory()">Add</button>
+        </div>
+    </div>
+    <div *ngIf="!modalConfig" class="modal-body row">
+        <div class="col">
+            <button type="button" class="btn btn-dark btn-block" (click)="modalRef.hide()">Dismiss</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger btn-block" (click)="deleteCategory()">Delete</button>
+        </div>
+    </div>
+</ng-template>
+
+<app-button-up></app-button-up>

@@ -1,0 +1,138 @@
+.title {
+  text-align: center;
+}
+
+.twoBlock {
+  width: 50%;
+  padding-right: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  P {
+    margin: 0;
+    text-align: center;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      border-radius: 10px;
+    }
+  }
+}
+
+
+.inputWrapper input {
+  border: none;
+  appearance: none;
+  background: #f2f2f2;
+  padding: 12px;
+  border-radius: 3px;
+  width: 100%;
+  outline: none;
+  font-size: 14px;
+}
+
+.inputWrapper {
+  position: relative;
+  font-size: 14px;
+  padding-top: 20px;
+  margin-bottom: 5px;
+}
+
+.inputWrapper .placeholder {
+  position: absolute;
+  left: 12px;
+  top: calc(50% + 10px);
+  transform: translateY(-50%);
+  color: #aaa;
+  transition: top 0.3s ease,
+    font-size 0.3s ease,
+    top 0.3s ease;
+}
+
+.inputWrapper input:valid+.placeholder,
+.inputWrapper input:focus+.placeholder {
+  top: 10px;
+  font-size: 10px;
+  color: #222;
+}
+
+.inputWrapper .border {
+  width: 100%;
+  height: calc(100% - 20px);
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 20px;
+  border-radius: 3px;
+}
+
+.inputWrapper .border::before,
+.inputWrapper .border::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  border-radius: 3px;
+}
+
+.inputWrapper .border::before {
+  left: 0;
+  bottom: 0;
+  border-bottom: 0px solid #222;
+  border-right: 0px solid #222;
+  transition:
+    border-width 0s ease 0.6s,
+    width 0.3s ease 0.3s,
+    height 0.3s ease 0s;
+}
+
+.inputWrapper .border::after {
+  right: 0;
+  top: 0;
+  border-top: 0px solid #222;
+  border-left: 0px solid #222;
+  transition:
+    border-width 0s ease 0.6s,
+    width 0.3s ease 0.3s,
+    height 0.3s ease 0s;
+}
+
+.inputWrapper input:valid~.border::before,
+.inputWrapper input:focus~.border::before,
+.inputWrapper input:valid~.border::after,
+.inputWrapper input:focus~.border::after {
+  width: 100%;
+  height: 100%;
+  border-width: 2px;
+}
+
+.inputWrapper input:valid~.border:before,
+.inputWrapper input:focus~.border:before {
+  transition:
+    width 0.3s ease 0s,
+    height 0.3s ease 0.3s
+}
+
+.inputWrapper input:valid~.border:after,
+.inputWrapper input:focus~.border:after {
+  transition:
+    border-width 0.3s ease,
+    width 0.3s ease 0s,
+    height 0.3s ease 0.3s;
+}
+
+
+.bDate {
+  display: flex;
+  justify-content: space-between;
+
+  label {
+    width: 30%;
+  }
+}

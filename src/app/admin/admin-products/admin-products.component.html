@@ -1,0 +1,95 @@
+<form class="border p-3">
+    <div class="form-group">
+        <label for="categoryChoose">Choose category</label>
+        <select class="form-control" [(ngModel)]="categoryName" name="categoryName" (change)="setCategory()"
+            id="categoryChoose">
+            <option *ngFor="let category of categories">
+                {{ category.nameEn }}
+            </option>
+        </select>
+        <div class="form-group mt-2">
+            <label for="productNameEN">Name EN</label>
+            <input type="text" class="form-control" id="productNameEN" [(ngModel)]="productNameEN" name="productNameEN">
+        </div>
+        <div class="form-group">
+            <label for="productNameUA">Name UA</label>
+            <input type="text" class="form-control" id="productNameUA" [(ngModel)]="productNameUA" name="productNameUA">
+        </div>
+        <div class="form-group">
+            <label for="productDescription">Description</label>
+            <textarea [(ngModel)]="productDescription" name="productDescription" id="productDescription"
+                class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="productWeight">Weight</label>
+            <input type="text" class="form-control" id="productWeight" [(ngModel)]="productWeight" name="productWeight">
+        </div>
+        <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" class="form-control" id="productPrice" [(ngModel)]="productPrice" name="productPrice">
+        </div>
+        <div class="custom-file mb-3" style="overflow: hidden;" *ngIf="!imageStatus">
+            <input (change)="uploadFile($event)" type="file" class="custom-file-input" id="productImage" required>
+            <label class="custom-file-label" for="productImage">Choose image...</label>
+        </div>
+        <div class="progress mb-3" *ngIf="!imageStatus">
+            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0"
+                aria-valuemax="100" [style.width]="(uploadProgress | async) + '%'"></div>
+        </div>
+        <div class="image mb-3" *ngIf="imageStatus" (click)="deleteImage()">
+            <img [src]="productImage" alt="">
+        </div>
+        <button class="btn btn-success" (click)="addProduct()">Add</button>
+    </div>
+</form>
+<hr>
+<table class="table">
+    <thead class="table-secondary">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Name EN</th>
+            <th scope="col">Name UA</th>
+            <th scope="col">Description</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Price</th>
+            <th scope="col">Image</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let prod of adminProduct; let i=index" id="{{ prod.id }}"
+            [ngClass]="(ngId == i+1) ? 'text-danger': ''">
+            <!-- <td>{{ prod.id }}</td> -->
+            <td>{{ i+1 }}</td>
+            <td>{{ prod.category.nameEn }}</td>
+            <td>{{ prod.nameEN }}</td>
+            <td>{{ prod.nameUA }}</td>
+            <td>{{ prod.description }}</td>
+            <td>{{ prod.weight }}</td>
+            <td>{{ prod.price }}</td>
+            <td>
+                <div class="miniImage" [style.backgroundImage]="'url('+ prod.image +')'"></div>
+            </td>
+            <td>
+                <input type="button" value="edit" class="btn btn-warning" (click)="editProduct(prod)">
+            </td>
+            <td>
+                <input type="button" value="delete" class="btn btn-danger" (click)="openDeleteModal(template, prod.id)">
+            </td>
+        </tr>
+    </tbody>
+</table>
+<app-button-up></app-button-up>
+
+<ng-template #template>
+    <div class="modal-body row">
+        <div class="col">
+            <button type="button" class="btn btn-dark btn-block" (click)="modalRef.hide()">Dismiss</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger btn-block" (click)="deleteProduct()">Delete</button>
+        </div>
+    </div>
+</ng-template>

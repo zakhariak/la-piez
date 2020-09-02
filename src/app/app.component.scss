@@ -1,0 +1,15 @@
+header {
+  transition: all 1s linear !important;
+}
+
+.scrolled {
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.15);
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+// header.scrolled .headerFlex {
+//   padding-top: 5px;
+//   padding-bottom: 5px;
+// }

@@ -1,0 +1,21 @@
+<div class="container-fluid mt-2 mainAdmin">
+    <div class="row">
+        <div class="col-2">
+            <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                <a class="nav-link text-dark" [routerLink]="[ 'category' ]" routerLinkActive="active">Category</a>
+                <a class="nav-link text-dark" [routerLink]="[ 'products' ]" routerLinkActive="active">Products</a>
+                <a class="nav-link text-dark" [routerLink]="[ 'discounts' ]" routerLinkActive="active">Discounts</a>
+                <a class="nav-link text-dark" [routerLink]="[ 'orders' ]" routerLinkActive="active">Orders</a>
+                <a class="nav-link text-dark" [routerLink]="[ 'blogs' ]" routerLinkActive="active">Blogs</a>
+                <a class="nav-link text-dark" [routerLink]="[ 'archive' ]" routerLinkActive="active">Archive</a>
+                <a class="backHome nav-link text-dark" [routerLink]="[ '/home' ]">Back to home</a>
+                <button class="btn btn-warning" (click)="signOut()">Sign Out</button>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="tab-content overflow-hidden adminRouteBlock">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="container-fluid">
+    <div class="border-bottom mb-3 border p-3" id="0">
+        <input class="form-control mb-3" [ngClass]="alert ? 'border-danger' : ''" type="text"
+            placeholder="title here..." name="title" [(ngModel)]="title">
+        <textarea class="form-control mb-3" [ngClass]="alert ? 'border-danger' : ''" rows="3" placeholder="text here..."
+            name="text" [(ngModel)]="text"></textarea>
+        <input class="form-control mb-3" [ngClass]="alert ? 'border-danger' : ''" type="text"
+            placeholder="author here..." name="author" [(ngModel)]="author">
+        <app-upload-file></app-upload-file>
+        <button type="button" class="btn btn-dark mb-3" [innerHtml]='editStatus? "Save edit" : "Add"'
+            (click)="addBlog()"></button><span *ngIf="alert" class="mySpan text-danger ml-3">Заповніть усі
+            поля!</span>
+    </div>
+    <table class="table">
+        <thead class="table-secondary">
+            <tr class="text-center">
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col-2">Text</th>
+                <th scope="col">Date</th>
+                <th scope="col">Author</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center" *ngFor="let b of arrayBlogs let i = index" id="{{ b.id }}"
+                [ngClass]="(ngId == i+1) ? 'text-danger': ''">
+                <td>{{ b.id }}</td>
+                <td class="over">{{ b.title }}</td>
+                <td class="over">
+                    <p>{{ b.text }}</p>
+                </td>
+                <td>{{ b.date }}</td>
+                <td>{{ b.author }}</td>
+                <td><button type="button" class="btn btn-dark mb-3" (click)="editBlog(b)">Edit</button></td>
+                <td><button type="button" class="btn btn-dark mb-3" (click)="deleteBlog(b)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<app-button-up></app-button-up>

@@ -1,0 +1,70 @@
+<form class="form-inline d-flex justify-content-between border p-3">
+  <div class="form-group col-10 p-0">
+    <input type="search" class="form-control w-100" id="searchDiscount" placeholder="search here..">
+  </div>
+  <button type="button" class="btn btn-success" (click)="openModal(template)">Add Discount</button>
+</form>
+<table class="table">
+  <thead class="table-secondary">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Text</th>
+      <th scope="col">Image</th>
+      <th scope="col">Edit</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let d of adminDiscount; let i=index">
+      <td>{{ i+1 }}</td>
+      <td>{{ d.title }}</td>
+      <td>{{ d.text }}</td>
+      <td><img [src]="d.image" alt="" width="50px" height="50px"></td>
+      <td>
+        <input type="button" value="edit" class="btn btn-warning" (click)="editDiscount(template, d)">
+      </td>
+      <td>
+        <input type="button" value="delete" class="btn btn-danger" (click)="openDeleteModal(template, d.id)">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #template>
+  <div *ngIf="!modalDeleteStatus">
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="dTitle">Title</label>
+          <input [(ngModel)]="dTitle" name="dTitle" type="text" class="form-control" id="dTitle"
+            placeholder="title here..">
+        </div>
+        <div class="form-group">
+          <label for="dText">Text</label>
+          <textarea [(ngModel)]="dText" name="dText" id="dText" class="form-control"
+            style="width: 100%; min-height: 200px;" placeholder="text here..."></textarea>
+        </div>
+        <app-upload-file></app-upload-file>
+        <button type="button" class="btn btn-primary mt-2" (click)="addDiscount(template)"
+          [textContent]="!editStatus ? 'Добавити' : 'Зберегти'"></button>
+      </form>
+    </div>
+  </div>
+  <div *ngIf="modalDeleteStatus">
+    <div class="modal-body row">
+      <div class="col">
+        <button type="button" class="btn btn-dark btn-block" (click)="modalRef.hide()">Dismiss</button>
+      </div>
+      <div class="col">
+        <button type="button" class="btn btn-danger btn-block" (click)="deleteDiscount()">Delete</button>
+      </div>
+    </div>
+  </div>
+</ng-template>

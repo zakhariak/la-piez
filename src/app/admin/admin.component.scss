@@ -1,0 +1,22 @@
+.active {
+  color: white !important;
+  background-color: #343a40 !important;
+
+  &:focus {
+    color: white !important;
+  }
+
+  &:hover {
+    color: white !important;
+  }
+}
+
+.adminRouteBlock {
+  min-height: 85vh;
+}
+
+.backHome {
+  &:hover {
+    color: #c80000 !important;
+  }
+}

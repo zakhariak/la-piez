@@ -1,0 +1,73 @@
+.mainContainer {
+  width: 60vw;
+
+
+  .card {
+
+    .card-text {
+      height: 50px;
+
+      h5 {
+        color: rgb(14, 14, 14);
+        transition: color 0.25s linear;
+        cursor: pointer;
+
+        &:hover {
+          color: rgb(200, 0, 0);
+          transition: color 0.25s linear;
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+
+
+    .btn {
+      height: 40px;
+      border-radius: 40px;
+      background-color: rgb(200, 0, 0);
+      transition: background-color 0.25s linear;
+
+      &:hover {
+        background-color: white;
+        border: 2px solid rgb(200, 0, 0);
+        color: rgb(200, 0, 0);
+        transition: color 0.25s linear;
+        transition: background-color 0.25s linear;
+      }
+    }
+
+    .card-img {
+      transition: opacity 0.25s linear;
+      max-height: 400px;
+
+      img {
+        height: 100%;
+      }
+
+      &:hover {
+        opacity: 0.75;
+        transition: opacity 0.25s linear;
+
+        &:after {
+          content: '';
+          width: 100%;
+          height: 28vw;
+          position: absolute;
+          top: 0;
+          left: 0;
+          background-color: white;
+          opacity: 0;
+          transition: opacity 0.25s linear;
+          cursor: pointer;
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

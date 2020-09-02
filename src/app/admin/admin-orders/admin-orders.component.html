@@ -1,0 +1,251 @@
+<div class="topBlock border">
+    <h5 class="bg-warning">НОВІ ЗАМОВЛЕННЯ</h5>
+    <div class="table">
+        <table class="table">
+            <thead class="table-secondary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">userName</th>
+                    <th scope="col">userPhone</th>
+                    <th scope="col">totalPayment</th>
+                    <th scope="col">dateOrder</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of processingOrders; let i=index">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.userName }}</td>
+                    <td>{{ order.userPhone }}</td>
+                    <td>{{ order.totalPayment }}</td>
+                    <td>{{ order.dateOrder }}</td>
+                    <td>
+                        <input type="button" value="Деталі" class="btn btn-info"
+                            (click)="openModal(details, order.id, true)">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="bottomBlock border">
+    <h5 class="bg-success">ГОТУЮТЬСЯ</h5>
+    <div class="table">
+        <table class="table">
+            <thead class="table-secondary">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">userName</th>
+                    <th scope="col">userPhone</th>
+                    <th scope="col">totalPayment</th>
+                    <th scope="col">dateOrder</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of preparingOrders; let i=index">
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.userName }}</td>
+                    <td>{{ order.userPhone }}</td>
+                    <td>{{ order.totalPayment }}</td>
+                    <td>{{ order.dateOrder }}</td>
+                    <td>
+                        <input type="button" value="Деталі" class="btn btn-info"
+                            (click)="openModal(details, order.id, false)">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<ng-template #details>
+    <div *ngIf="showDetails">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Прийняти замовлення № {{ oneOrder?.id }}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container d-flex userInfo">
+                <div class="container">
+                    <h5 class="border-bottom mb-1"><span>Ім'я:</span> {{ oneOrder?.userName | titlecase}},
+                        <span>моб.:</span>
+                        {{ oneOrder?.userPhone }}</h5>
+                    <p *ngIf="oneOrder?.delivery !== 'самовивіз'" class="border-bottom mb-1"><span>Адреса:</span>
+                        {{ oneOrder?.userCity | titlecase}}, {{ oneOrder?.userStreet | titlecase}},
+                        {{ oneOrder?.userHouse | titlecase}}
+                    </p>
+                    <p class="border-bottom mb-1"><span>Оплата:</span> {{ oneOrder?.payment | titlecase }}</p>
+                    <p class="border-bottom mb-1"><span>Доставка:</span> {{ oneOrder?.delivery | titlecase }}</p>
+                </div>
+                <div class="container">
+                    <p><span>Коментар:</span> {{ oneOrder?.userComment | titlecase}}</p>
+                    <p><span>Сума замовлення:</span> {{ totalPrice }} <span>грн.</span></p>
+                </div>
+            </div>
+            <div class="container">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Товар</th>
+                            <th scope="col">Ціна</th>
+                            <th scope="col">Кількість</th>
+                            <th scope="col">Загалом</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pDetails of oneOrder?.ordersDetails; let i=index">
+                            <td><img src="{{ pDetails.image }}" style="width:50px" alt=""></td>
+                            <td>{{ pDetails.nameUA }}</td>
+                            <td>{{ pDetails.price }}</td>
+                            <td>
+                                <app-product-count [product]="pDetails"></app-product-count>
+                            </td>
+                            <td>{{ pDetails.price * pDetails.count }}</td>
+                            <td>
+                                <input type="button" value="Delete" class="btn btn-danger"
+                                    (click)="openDeleteModal(delete, pDetails, true)">
+                            </td>
+                        </tr>
+                        <div *ngIf="oneOrder?.ordersDetails.length == 0" class="alertProd container">
+                            <h5>Замовлень немає</h5>
+                        </div>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-fluid row">
+                <div class="mr-3">
+                    <input type="button" value="Готувати" class="btn btn-info" (click)="saveUserOrder('готується')">
+                </div>
+                <div class="mr-3">
+                    <input type="button" value="Edit" class="btn btn-warning" (click)="openEditModal(edit)">
+                </div>
+                <div>
+                    <input type="button" value="Delete" class="btn btn-danger" (click)="openDeleteModal(delete, false)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!showDetails">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Деталі замовлення № {{ oneOrder?.id }}</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="container d-flex userInfo">
+                <div class="container">
+                    <h5 class="border-bottom mb-1"><span>Ім'я:</span>
+                        {{ oneOrder?.userName | titlecase}}<span>,моб.:</span>
+                        {{ oneOrder?.userPhone }}</h5>
+                    <p *ngIf="oneOrder?.delivery !== 'самовивіз'" class="border-bottom mb-1"><span>Адреса:</span>
+                        {{ oneOrder?.userCity | titlecase}}, {{ oneOrder?.userStreet | titlecase}},
+                        {{ oneOrder?.userHouse | titlecase}}
+                    </p>
+                    <p class="border-bottom mb-1"><span>Оплата:</span> {{ oneOrder?.payment | titlecase }}</p>
+                    <p class="border-bottom mb-1"><span>Доставка:</span> {{ oneOrder?.delivery | titlecase }}</p>
+                </div>
+                <div class="container">
+                    <p><span>Коментар:</span> {{ oneOrder?.userComment | titlecase}}</p>
+                    <p><span>Сума замовлення:</span> {{ totalPrice }} <span>грн.</span> </p>
+                </div>
+            </div>
+            <div class="container">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Товар</th>
+                            <th scope="col">Ціна</th>
+                            <th scope="col">Кількість</th>
+                            <th scope="col">Загалом</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pDetails of oneOrder?.ordersDetails; let i=index">
+                            <td><img src="{{ pDetails.image }}" style="width:50px" alt=""></td>
+                            <td>{{ pDetails.nameUA }}</td>
+                            <td>{{ pDetails.price }}</td>
+                            <td>{{ pDetails.count }} </td>
+                            <td>{{ pDetails.price * pDetails.count }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="container-fluid row">
+                <div class="mr-3">
+                    <input type="button" value="В архів" class="btn btn-info" (click)="saveUserOrder('архів')">
+                </div>
+                <div>
+                    <input type="button" value="Видалити" class="btn btn-danger" (click)="openDeleteModal(delete, false)">
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #delete>
+    <div *ngIf="deleteProd" class="modal-body row bg-warning">
+        <div class="col">
+            <button type="button" class="btn btn-dark btn-block" (click)="modalRef2.hide()">Dismiss</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger btn-block" (click)="saveUserOrder(prodArray)">Delete</button>
+        </div>
+    </div>
+    <div *ngIf="!deleteProd" class="modal-body row bg-warning">
+        <div class="col">
+            <button type="button" class="btn btn-dark btn-block" (click)="modalRef2.hide()">Dismiss</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-danger btn-block" (click)="deleteOrder()">Delete</button>
+        </div>
+    </div>
+</ng-template>
+
+
+
+<ng-template #edit>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Виправити дані замовника</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef3.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="edName">User name</label>
+            <input type="text" class="form-control" id="edName" [(ngModel)]="edName" name="edName">
+        </div>
+        <div class="form-group">
+            <label for="edPhone">User phone</label>
+            <input type="text" class="form-control" id="edPhone" [(ngModel)]="edPhone" name="edPhone">
+        </div>
+        <div class="form-group">
+            <label for="edCity">User city</label>
+            <input type="text" class="form-control" id="edCity" [(ngModel)]="edCity" name="edCity">
+        </div>
+        <div class="form-group">
+            <label for="edStreet">User phone</label>
+            <input type="text" class="form-control" id="edStreet" [(ngModel)]="edStreet" name="edStreet">
+        </div>
+        <div class="form-group">
+            <label for="edHouse">User phone</label>
+            <input type="text" class="form-control" id="edHouse" [(ngModel)]="edHouse" name="edHouse">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col">
+            <button type="button" class="btn btn-success btn-block" (click)="saveInfo()">Save</button>
+        </div>
+    </div>
+</ng-template>

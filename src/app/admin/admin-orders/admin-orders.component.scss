@@ -1,0 +1,87 @@
+.topBlock {
+  height: 45vh;
+  text-align: center;
+
+  h5 {
+    border: 1px solid #000;
+  }
+
+  .table {
+    height: 40vh;
+    overflow: auto;
+    border-collapse: collapse;
+
+    thead {
+      position: sticky;
+      top: 0;
+    }
+
+    tbody {
+      tr {
+        vertical-align: top;
+
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+.bottomBlock {
+  height: 40vh;
+  text-align: center;
+
+  h5 {
+    border: 1px solid #000;
+  }
+
+  .table {
+    height: 38vh;
+    overflow: auto;
+    border-collapse: collapse;
+
+    thead {
+      position: sticky;
+      top: 0;
+    }
+
+    tbody {
+      tr {
+        vertical-align: middle;
+
+        td {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
+
+.userInfo {
+  text-align: center;
+
+  span {
+    font-weight: normal;
+    font-size: 14px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+}
+
+
+::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.modal-body {
+  tbody {
+    td {
+      vertical-align: middle;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+<div class="container mt-2">
+    <div class="row">
+        <div class="card col-8 m-auto">
+            <img class="card-img-top" [src]="blog?.image" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{ blog?.title }}</h5>
+                <p class="card-text">{{ blog?.text }}</p>
+                <a class="btn btn-danger float-right" (click)="goBack()">Back</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="custom-file mb-3" style="overflow: hidden;" *ngIf="!imageStatus">
+    <input (change)="uploadFile($event)" type="file" class="custom-file-input" id="image" required>
+    <label class="custom-file-label" for="image">Choose image...</label>
+</div>
+<div class="progress mb-3" *ngIf="!imageStatus">
+    <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+        [style.width]="(uploadProgress | async) + '%'"></div>
+</div>
+<div class="image mb-3" *ngIf="imageStatus" (click)="deleteImage()">
+    <img [src]="image" alt="">
+</div>

@@ -1,0 +1,38 @@
+.orderBlock {
+  height: 45vh;
+  text-align: center;
+
+  h5 {
+    border: 1px solid #000;
+  }
+
+  .table {
+    height: 41vh;
+    overflow: auto;
+    border-collapse: collapse;
+
+    thead {
+      position: sticky;
+      top: 0;
+    }
+
+    tbody {
+      tr {
+        vertical-align: top;
+
+        td {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+
+.modal-body {
+  tbody {
+    td {
+      vertical-align: middle;
+    }
+  }
+}

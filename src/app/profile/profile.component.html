@@ -1,0 +1,133 @@
+<div class="container mt-5">
+    <div class="container title">
+        <h2 class="my-3">Особистий кабінет</h2>
+    </div>
+    <div class="container d-flex">
+        <div class="container twoBlock">
+            <h5>Персональні дані</h5>
+            <label class="inputWrapper">
+                <input type="text" required [(ngModel)]="userFirstName" name="userFirstName">
+                <span class="placeholder">Your name</span>
+                <span class="border"></span>
+            </label>
+            <label class="inputWrapper">
+                <input type="text" required [(ngModel)]="userLastName" name="userLastName">
+                <span class="placeholder">Your name</span>
+                <span class="border"></span>
+            </label>
+            <label class="inputWrapper">
+                <input type="text" required [(ngModel)]="userEmail" name="userEmail">
+                <span class="placeholder">Your email</span>
+                <span class="border"></span>
+            </label>
+            <label class="inputWrapper">
+                <input type="text" required [(ngModel)]="userPhone" name="userPhone">
+                <span class="placeholder">Your phone</span>
+                <span class="border"></span>
+            </label>
+            <p class="mt-3">Your birthday</p>
+            <div class="bDate">
+                <label class="inputWrapper"><input type="number" required [(ngModel)]="userbDay" name="userbDay">
+                    <span class="placeholder">day</span>
+                    <span class="border"></span>
+                </label>
+                <label class="inputWrapper"><input type="number" required [(ngModel)]="userbMonth" name="userbMonth">
+                    <span class="placeholder">month</span>
+                    <span class="border"></span>
+                </label>
+                <label class="inputWrapper"><input type="number" required [(ngModel)]="userbYear" name="userbYear">
+                    <span class="placeholder">year</span>
+                    <span class="border"></span>
+                </label>
+            </div>
+            <div class="buttons my-4">
+                <button class="btn btn-success" (click)="updateUser()">Save</button>
+                <button class="btn btn-warning" (click)="signOut()">Sign Out</button>
+            </div>
+        </div>
+        <div class="container twoBlock"></div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="container title">
+            <h2 class="my-3">Історія замовлень</h2>
+        </div>
+        <div *ngIf="userOrders" class="table">
+            <table class="table">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col">dateOrder</th>
+                        <th scope="col">totalPayment</th>
+                        <th scope="col">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of userOrders; let i=index">
+                        <td>{{ order.dateOrder }}</td>
+                        <td>{{ order.totalPayment }}</td>
+                        <td>
+                            <input type="button" value="Деталі" class="btn btn-info"
+                                (click)="openModal(details, order.id)">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="!userOrders" class="title">
+            <h5 class="my-3 text-danger">Ви ще не зробили ні одного замовлення</h5>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #details>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Прийняти замовлення № {{ oneOrder?.id }}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container d-flex userInfo">
+            <div class="container">
+                <p *ngIf="oneOrder?.delivery !== 'самовивіз'" class="border-bottom mb-1"><span>Адреса:</span>
+                    {{ oneOrder?.userCity | titlecase}}, {{ oneOrder?.userStreet | titlecase}},
+                    {{ oneOrder?.userHouse | titlecase}}
+                </p>
+                <p class="border-bottom mb-1"><span>Оплата:</span> {{ oneOrder?.payment | titlecase }}</p>
+                <p class="border-bottom mb-1"><span>Доставка:</span> {{ oneOrder?.delivery | titlecase }}</p>
+            </div>
+            <div class="container">
+                <p><span>Коментар:</span> {{ oneOrder?.userComment | titlecase}}</p>
+                <p><span>Сума замовлення:</span> {{ oneOrder?.totalPayment }} <span>грн.</span></p>
+            </div>
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead class="table-secondary">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Товар</th>
+                        <th scope="col">Ціна</th>
+                        <th scope="col">Кількість</th>
+                        <th scope="col">Загалом</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let pDetails of oneOrder?.ordersDetails; let i=index">
+                        <td><img src="{{ pDetails.image }}" style="width:50px" alt=""></td>
+                        <td>{{ pDetails.nameUA }}</td>
+                        <td>{{ pDetails.price }}</td>
+                        <td>{{ pDetails.count }} </td>
+                        <td>{{ pDetails.price * pDetails.count }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container-fluid row">
+            <div class="mr-3">
+                <input type="button" value="Close" class="btn btn-danger right" (click)="modalRef.hide()">
+            </div>
+        </div>
+    </div>
+</ng-template>
